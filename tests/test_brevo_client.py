@@ -13,6 +13,7 @@ STORY = {
 }
 
 @patch("brevo_client.requests.post")
+@patch.dict("os.environ", {"BREVO_API_KEY": "test-key"})
 def test_send_story_email_posts_to_brevo(mock_post):
     mock_post.return_value.status_code = 201
     send_story_email("parent@example.com", "Maya", STORY)
@@ -22,6 +23,7 @@ def test_send_story_email_posts_to_brevo(mock_post):
     assert "Maya" in call_json["subject"] or "Tonight" in call_json["subject"]
 
 @patch("brevo_client.requests.post")
+@patch.dict("os.environ", {"BREVO_API_KEY": "test-key"})
 def test_send_paywall_email_posts_to_brevo(mock_post):
     mock_post.return_value.status_code = 201
     send_paywall_email("parent@example.com", "Maya", "https://buy.stripe.com/test")
@@ -31,6 +33,7 @@ def test_send_paywall_email_posts_to_brevo(mock_post):
            "buy.stripe.com" in call_json["htmlContent"]
 
 @patch("brevo_client.requests.post")
+@patch.dict("os.environ", {"BREVO_API_KEY": "test-key"})
 def test_send_story_email_raises_on_error(mock_post):
     mock_post.return_value.status_code = 400
     mock_post.return_value.text = "Bad Request"
