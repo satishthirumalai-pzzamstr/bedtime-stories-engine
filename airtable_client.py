@@ -1,16 +1,40 @@
 import os
-from pyairtable import Table
+import requests
 
-def _table() -> Table:
-    return Table(
-        os.environ["AIRTABLE_API_KEY"],
-        os.environ["AIRTABLE_BASE_ID"],
-        "Subscribers",
-    )
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
+TABLE = "subscribers"
+
+
+def _headers() -> dict:
+    return {
+        "apikey": os.environ["SUPABASE_KEY"],
+        "Authorization": f"Bearer {os.environ['SUPABASE_KEY']}",
+        "Content-Type": "application/json",
+        "Prefer": "return=representation",
+    }
+
+
+def _rest_url() -> str:
+    return f"{os.environ['SUPABASE_URL']}/rest/v1/{TABLE}"
+
 
 def get_active_subscribers() -> list[dict]:
-    rows = _table().all()
-    return [r for r in rows if r["fields"].get("status") in ("trial", "active")]
+    resp = requests.get(
+        _rest_url(),
+        headers=_headers(),
+        params={"status": "in.(trial,active)"},
+    )
+    if resp.status_code != 200:
+        raise RuntimeError(f"Supabase error {resp.status_code}: {resp.text}")
+    rows = resp.json()
+    return [{"id": r["id"], "fields": r} for r in rows]
+
 
 def update_subscriber(record_id: str, fields: dict) -> None:
-    _table().update(record_id, fields)
+    resp = requests.patch(
+        f"{_rest_url()}?id=eq.{record_id}",
+        headers=_headers(),
+        json=fields,
+    )
+    if resp.status_code not in (200, 204):
+        raise RuntimeError(f"Supabase error {resp.status_code}: {resp.text}")
