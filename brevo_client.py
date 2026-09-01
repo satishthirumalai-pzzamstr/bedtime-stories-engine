@@ -4,7 +4,7 @@ import requests
 from pathlib import Path
 
 BREVO_API_URL = "https://api.brevo.com/v3/smtp/email"
-SENDER = {"name": "Bedtime Stories", "email": "stories@yourdomain.com"}
+SENDER = {"name": "Bedtime Stories", "email": "satish.thirumalai@gmail.com"}
 STRIPE_LINK = os.environ.get("STRIPE_LINK", "https://buy.stripe.com/YOUR_LINK_HERE")
 
 def _headers() -> dict:
@@ -19,7 +19,7 @@ def _render_template(story: dict) -> str:
     for key in ("title", "preheader", "story", "closing_line",
                 "parent_note", "reading_time_minutes"):
         template = template.replace(f"{{{{{key}}}}}", html_module.escape(str(story.get(key, ""))))
-    template = template.replace("{{unsubscribe_url}}", "mailto:stories@yourdomain.com?subject=Unsubscribe")
+    template = template.replace("{{unsubscribe_url}}", "mailto:satish.thirumalai@gmail.com?subject=Unsubscribe")
     return template
 
 def _post(payload: dict) -> None:
