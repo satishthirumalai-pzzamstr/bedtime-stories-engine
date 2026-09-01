@@ -20,9 +20,8 @@ def _rest_url() -> str:
 
 def get_active_subscribers() -> list[dict]:
     resp = requests.get(
-        _rest_url(),
+        f"{_rest_url()}?status=in.(trial,active)",
         headers=_headers(),
-        params={"status": "in.(trial,active)"},
     )
     if resp.status_code != 200:
         raise RuntimeError(f"Supabase error {resp.status_code}: {resp.text}")
