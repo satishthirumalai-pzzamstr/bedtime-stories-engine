@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{title}}</title>
+<style>
+  body { font-family: Georgia, serif; font-size: 18px; line-height: 1.8;
+         color: #1a1a1a; background: #fffdf8; max-width: 600px;
+         margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 22px; font-weight: bold; margin-bottom: 4px; }
+  .preheader { color: #666; font-style: italic; margin-bottom: 24px; font-size: 16px; }
+  .story { white-space: pre-wrap; }
+  .closing { margin-top: 32px; font-style: italic; color: #444; }
+  .parent-note { margin-top: 40px; padding: 16px; background: #f0ede6;
+                 border-left: 3px solid #c8b99a; font-size: 15px; color: #555; }
+  .footer { margin-top: 40px; font-size: 13px; color: #999; }
+</style>
+</head>
+<body>
+  <h1>{{title}}</h1>
+  <p class="preheader">{{preheader}}</p>
+  <div class="story">{{story}}</div>
+  <p class="closing">{{closing_line}}</p>
+  <div class="parent-note"><strong>For the grown-up:</strong> {{parent_note}}</div>
+  <div class="footer">
+    <p>Reading time: {{reading_time_minutes}} min &nbsp;·&nbsp;
+       <a href="{{unsubscribe_url}}">Unsubscribe</a></p>
+  </div>
+</body>
+</html>
