@@ -75,3 +75,26 @@ def test_run_sends_paywall_on_day7(mock_get, mock_gen, mock_story, mock_paywall,
 def test_run_continues_on_generation_failure(mock_get, mock_gen, mock_send, mock_update):
     run()
     mock_send.assert_not_called()
+
+@patch("main.update_subscriber")
+@patch("main.send_story_email")
+@patch("main.generate_story", return_value=STORY)
+@patch("main.get_active_subscribers")
+def test_history_capped_at_14_entries(mock_get, mock_gen, mock_send, mock_update):
+    old_history = [
+        {"date": "2026-01-01", "archetype": f"A{i}", "setting": "s", "character_type": "c"}
+        for i in range(20)
+    ]
+    subscriber = {
+        "id": "rec99",
+        "fields": {
+            **SUBSCRIBER_TRIAL_DAY3["fields"],
+            "story_history": json.dumps(old_history),
+        },
+    }
+    mock_get.return_value = [subscriber]
+    run()
+    update_calls = [c for c in mock_update.call_args_list if "story_history" in c[0][1]]
+    assert len(update_calls) == 1
+    saved_history = json.loads(update_calls[0][0][1]["story_history"])
+    assert len(saved_history) == 14

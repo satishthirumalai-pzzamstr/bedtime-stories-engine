@@ -38,6 +38,7 @@ def test_generate_story_returns_parsed_json(mock_anthropic_cls):
     profile = {"child_name": "Maya", "age": 6, "recent_stories": []}
     result = generate_story(profile)
     assert result["title"] == VALID_STORY["title"]
+    assert mock_client.messages.create.call_args.kwargs["model"] == "claude-sonnet-5"
 
 @patch("story_generator.anthropic.Anthropic")
 def test_generate_story_retries_once_on_invalid(mock_anthropic_cls):
@@ -64,3 +65,4 @@ def test_generate_story_raises_after_two_failures(mock_anthropic_cls):
     profile = {"child_name": "Maya", "age": 6, "recent_stories": []}
     with pytest.raises(RuntimeError, match="Story generation failed"):
         generate_story(profile)
+    assert mock_client.messages.create.call_count == 2

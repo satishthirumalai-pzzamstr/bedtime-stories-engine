@@ -51,23 +51,26 @@ def run() -> None:
             continue
 
         # Update story history
-        history = json.loads(f.get("story_history") or "[]")
-        history.append({
-            "date": date.today().isoformat(),
-            "archetype": story["archetype_used"],
-            "setting": story["setting_used"],
-            "character_type": story["character_type"],
-        })
-        update_subscriber(record_id, {"story_history": json.dumps(history[-14:])})
+        try:
+            history = json.loads(f.get("story_history") or "[]")
+            history.append({
+                "date": date.today().isoformat(),
+                "archetype": story.get("archetype_used", ""),
+                "setting": story.get("setting_used", ""),
+                "character_type": story.get("character_type", ""),
+            })
+            update_subscriber(record_id, {"story_history": json.dumps(history[-14:])})
+        except Exception as e:
+            log.error(f"History update failed for {child}: {e}")
 
         # Paywall check
         if f.get("status") == "trial" and f.get("days_active", 0) >= TRIAL_DAYS:
             try:
                 send_paywall_email(f["email"], child, STRIPE_LINK)
                 log.info(f"Paywall email sent to {child}")
+                update_subscriber(record_id, {"status": "paused"})
             except Exception as e:
                 log.error(f"Paywall email failed for {child}: {e}")
-            update_subscriber(record_id, {"status": "paused"})
 
 if __name__ == "__main__":
     run()
