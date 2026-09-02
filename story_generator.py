@@ -32,7 +32,7 @@ def generate_story(profile: dict) -> dict:
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": json.dumps(profile)}],
         )
-        raw = response.content[0].text
+        raw = next(b.text for b in response.content if hasattr(b, "text"))
         try:
             story = json.loads(raw)
         except json.JSONDecodeError:
