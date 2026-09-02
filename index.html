@@ -1,0 +1,657 @@
+<title>Kai Lens Studio — Bedtime Stories</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Nunito:wght@400;500;600;700&display=swap">
+
+<style>
+  :root {
+    --bg: #0C1A2E;
+    --surface: #132640;
+    --surface-2: #1A3050;
+    --accent: #F0B840;
+    --accent-dim: rgba(240,184,64,0.15);
+    --sage: #7BB8A4;
+    --text: #EDE8DF;
+    --text-muted: #7A91A8;
+    --border: rgba(237,232,223,0.1);
+    --radius: 12px;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #F5EFE4;
+      --surface: #FFFDF9;
+      --surface-2: #F0EBE0;
+      --accent: #C8881A;
+      --accent-dim: rgba(200,136,26,0.1);
+      --sage: #4D9280;
+      --text: #16263A;
+      --text-muted: #5A6E82;
+      --border: rgba(22,38,58,0.1);
+    }
+  }
+
+  :root[data-theme="light"] {
+    --bg: #F5EFE4;
+    --surface: #FFFDF9;
+    --surface-2: #F0EBE0;
+    --accent: #C8881A;
+    --accent-dim: rgba(200,136,26,0.1);
+    --sage: #4D9280;
+    --text: #16263A;
+    --text-muted: #5A6E82;
+    --border: rgba(22,38,58,0.1);
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0C1A2E;
+    --surface: #132640;
+    --surface-2: #1A3050;
+    --accent: #F0B840;
+    --accent-dim: rgba(240,184,64,0.15);
+    --sage: #7BB8A4;
+    --text: #EDE8DF;
+    --text-muted: #7A91A8;
+    --border: rgba(237,232,223,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 1.5rem 4rem;
+    overflow: hidden;
+  }
+
+  #stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  h1 {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: 300;
+    line-height: 1.1;
+    text-wrap: balance;
+    margin-bottom: 1.25rem;
+    color: var(--text);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto 2rem;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #0C1A2E;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.85rem 2.25rem;
+    border-radius: 50px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+
+  .cta-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .cta-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  .trial-note {
+    margin-top: 0.9rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  /* ── How it works ── */
+  .how {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem;
+  }
+
+  .section-label {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .how h2 {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.2;
+    text-wrap: balance;
+    margin-bottom: 3.5rem;
+    max-width: 560px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+  }
+
+  .step-icon {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .step h3 {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .step p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── Pricing note ── */
+  .pricing {
+    background: var(--accent-dim);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 560px;
+    margin: 0 auto 6rem;
+  }
+
+  .pricing-amount {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .pricing-amount span {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .pricing p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ── Form ── */
+  .signup {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 5rem 1.5rem 6rem;
+  }
+
+  .signup-inner {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .signup h2 {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.2;
+    text-wrap: balance;
+    margin-bottom: 0.5rem;
+  }
+
+  .signup > .signup-inner > p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  label .req { color: var(--accent); margin-left: 2px; }
+
+  input, select, textarea {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.65rem 0.85rem;
+    outline: none;
+    transition: border-color 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A91A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.85rem center;
+    padding-right: 2.2rem;
+    cursor: pointer;
+  }
+
+  textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+
+  input::placeholder, textarea::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--accent);
+    color: #0C1A2E;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.9rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.15s;
+    margin-top: 0.5rem;
+  }
+
+  .submit-btn:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .submit-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  .form-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 1rem;
+    line-height: 1.5;
+  }
+
+  .success-msg {
+    display: none;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .success-msg.visible { display: block; }
+
+  .success-msg h3 {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+
+  .success-msg p { font-size: 0.95rem; color: var(--text-muted); }
+
+  .error-msg {
+    display: none;
+    color: #E57373;
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+
+  .error-msg.visible { display: block; }
+
+  /* ── Footer ── */
+  footer {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+  }
+
+  footer a { color: var(--text-muted); text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<!-- Hero -->
+<section class="hero">
+  <canvas id="stars"></canvas>
+  <div class="hero-content">
+    <span class="eyebrow">7 nights free · then $8/month</span>
+    <h1>A new story,<br><em>every night.</em></h1>
+    <p>Personalized bedtime stories written for your child — their age, their interests, their world — delivered to your inbox before bedtime.</p>
+    <a href="#signup" class="cta-btn">Start your free week</a>
+    <p class="trial-note">No credit card required. Stories begin tomorrow night.</p>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="how">
+  <span class="section-label">How it works</span>
+  <h2>One story, written fresh for your child, every single night.</h2>
+  <div class="steps">
+    <div class="step">
+      <span class="step-icon">✍️</span>
+      <h3>Tell us about them</h3>
+      <p>Their name, age, what they love, what they'd rather skip. A comfort object, a theme they're working through.</p>
+    </div>
+    <div class="step">
+      <span class="step-icon">🌙</span>
+      <h3>We write tonight's story</h3>
+      <p>Every night an original story — always a different adventure, always the right length for their age, always ending in calm.</p>
+    </div>
+    <div class="step">
+      <span class="step-icon">📬</span>
+      <h3>It arrives before bed</h3>
+      <p>Open the email, read aloud. The story is written to be read aloud — paced for a bedtime voice, ended in stillness.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<div style="padding: 0 1.5rem; max-width: 860px; margin: 0 auto;">
+  <div class="pricing">
+    <div class="pricing-amount">$8<span>/mo</span></div>
+    <p>7 nights free to start. After your trial, continue for $8/month. Cancel any time — stories stop the next night.</p>
+  </div>
+</div>
+
+<!-- Signup form -->
+<section class="signup" id="signup">
+  <div class="signup-inner">
+    <h2>Start your free week</h2>
+    <p>Stories begin tomorrow night. No card needed for the trial.</p>
+
+    <form id="signupForm">
+      <div class="field-group">
+        <div>
+          <label for="email">Parent email <span class="req">*</span></label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label for="child_name">Child's name <span class="req">*</span></label>
+            <input type="text" id="child_name" name="child_name" placeholder="First name" required>
+          </div>
+          <div>
+            <label for="age">Age <span class="req">*</span></label>
+            <select id="age" name="age" required>
+              <option value="" disabled selected>Select age</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="pronouns">Pronouns</label>
+          <select id="pronouns" name="pronouns">
+            <option value="they/them">they/them</option>
+            <option value="she/her">she/her</option>
+            <option value="he/him">he/him</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="interests">What do they love? <span class="req">*</span></label>
+          <input type="text" id="interests" name="interests" placeholder="dinosaurs, space, baking, trains…" required>
+        </div>
+
+        <div>
+          <label for="avoid_topics">Anything to avoid</label>
+          <input type="text" id="avoid_topics" name="avoid_topics" placeholder="thunderstorms, dogs, anything scary…">
+        </div>
+
+        <div class="divider">Optional extras</div>
+
+        <div>
+          <label for="comfort_object">Comfort object</label>
+          <input type="text" id="comfort_object" name="comfort_object" placeholder="A stuffed rabbit named Pip…">
+        </div>
+
+        <div>
+          <label for="life_theme">Something they're working through</label>
+          <textarea id="life_theme" name="life_theme" placeholder="Starting a new school, a new sibling, feeling left out…"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Begin the stories →</button>
+      <div class="error-msg" id="errorMsg"></div>
+      <p class="form-note">Stories arrive nightly. To unsubscribe, reply to any email.</p>
+    </form>
+
+    <div class="success-msg" id="successMsg">
+      <h3>First story arrives tonight. ✨</h3>
+      <p>Check your inbox — we'll send a confirmation now, and the first story before bedtime.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Questions? <a href="mailto:satish.thirumalai@gmail.com">Reply to any story email.</a></p>
+</footer>
+
+<script>
+  // ── Starfield ──
+  (function () {
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [], W, H, raf;
+
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+
+    function init() {
+      stars = Array.from({ length: 160 }, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.2,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.4 + 0.15,
+      }));
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      // Only draw stars in dark contexts
+      const isDark = document.documentElement.dataset.theme === 'dark' ||
+        (!document.documentElement.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches) ||
+        (!document.documentElement.dataset.theme && !window.matchMedia('(prefers-color-scheme: light)').matches);
+      if (!isDark) { raf = requestAnimationFrame(draw); return; }
+
+      stars.forEach(s => {
+        const alpha = 0.35 + 0.45 * Math.sin(s.phase + t * s.speed * 0.001);
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(237,232,223,${alpha})`;
+        ctx.fill();
+      });
+      raf = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', () => { resize(); init(); });
+    resize(); init();
+    raf = requestAnimationFrame(draw);
+  })();
+
+  // ── Smooth scroll for CTA ──
+  document.querySelector('a[href="#signup"]').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('signup').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // ── Form submission → Supabase ──
+  const SUPABASE_URL = 'https://rrhkrjohmhmfceoxvnjd.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_EG5_1yLOL04RfI-OtA9qmg_kjCgFaAL';
+
+  document.getElementById('signupForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const errEl = document.getElementById('errorMsg');
+    errEl.classList.remove('visible');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    const today = new Date().toISOString().split('T')[0];
+
+    const payload = {
+      email: document.getElementById('email').value.trim(),
+      child_name: document.getElementById('child_name').value.trim(),
+      age: parseInt(document.getElementById('age').value, 10),
+      pronouns: document.getElementById('pronouns').value,
+      interests: document.getElementById('interests').value.trim(),
+      avoid_topics: document.getElementById('avoid_topics').value.trim(),
+      comfort_object: document.getElementById('comfort_object').value.trim(),
+      life_theme: document.getElementById('life_theme').value.trim(),
+      status: 'trial',
+      days_active: 0,
+      story_history: '[]',
+      signup_date: today,
+    };
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/subscribers`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok || res.status === 201) {
+        document.getElementById('signupForm').style.display = 'none';
+        document.getElementById('successMsg').classList.add('visible');
+      } else {
+        const body = await res.text();
+        // Duplicate email
+        if (res.status === 409 || body.includes('duplicate')) {
+          errEl.textContent = 'That email is already signed up. Check your inbox for tonight's story.';
+        } else {
+          errEl.textContent = 'Something went wrong. Email us at satish.thirumalai@gmail.com to sign up.';
+        }
+        errEl.classList.add('visible');
+        btn.disabled = false;
+        btn.textContent = 'Begin the stories →';
+      }
+    } catch (err) {
+      errEl.textContent = 'Network error. Please try again.';
+      errEl.classList.add('visible');
+      btn.disabled = false;
+      btn.textContent = 'Begin the stories →';
+    }
+  });
+</script>
