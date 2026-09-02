@@ -466,7 +466,7 @@
     <h2>Start your free week</h2>
     <p>Stories begin tomorrow night. No card needed for the trial.</p>
 
-    <form id="signupForm">
+    <form id="signupForm" action="javascript:void(0)">
       <div class="field-group">
         <div>
           <label for="email">Parent email <span class="req">*</span></label>
@@ -597,6 +597,7 @@
 
   document.getElementById('signupForm').addEventListener('submit', async function (e) {
     e.preventDefault();
+    console.log('Form submit fired');
     const btn = document.getElementById('submitBtn');
     const errEl = document.getElementById('errorMsg');
     errEl.classList.remove('visible');
