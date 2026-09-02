@@ -639,7 +639,7 @@
         const body = await res.text();
         // Duplicate email
         if (res.status === 409 || body.includes('duplicate')) {
-          errEl.textContent = 'That email is already signed up. Check your inbox for tonight's story.';
+          errEl.textContent = "That email is already signed up. Check your inbox for tonight's story.";
         } else {
           errEl.textContent = 'Something went wrong. Email us at satish.thirumalai@gmail.com to sign up.';
         }
