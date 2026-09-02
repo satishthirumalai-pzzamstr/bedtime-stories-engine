@@ -59,7 +59,10 @@ def run() -> None:
                 "setting": story.get("setting_used", ""),
                 "character_type": story.get("character_type", ""),
             })
-            update_subscriber(record_id, {"story_history": json.dumps(history[-14:])})
+            update_subscriber(record_id, {
+                "story_history": json.dumps(history[-14:]),
+                "days_active": f.get("days_active", 0) + 1,
+            })
         except Exception as e:
             log.error(f"History update failed for {child}: {e}")
 
