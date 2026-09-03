@@ -56,6 +56,25 @@ def test_generate_story_retries_once_on_invalid(mock_anthropic_cls):
     assert result["title"] == VALID_STORY["title"]
 
 @patch("story_generator.anthropic.Anthropic")
+def test_generate_story_retry_includes_validation_feedback(mock_anthropic_cls):
+    mock_client = MagicMock()
+    mock_anthropic_cls.return_value = mock_client
+    short_story = {**VALID_STORY, "story": " ".join(["word"] * 50)}  # too short for age 6
+    bad_response = MagicMock(text=json.dumps(short_story))
+    good_response = MagicMock(text=json.dumps(VALID_STORY))
+    mock_client.messages.create.side_effect = [
+        MagicMock(content=[bad_response]),
+        MagicMock(content=[good_response]),
+    ]
+    profile = {"child_name": "Maya", "age": 6, "recent_stories": []}
+    result = generate_story(profile)
+    assert result["title"] == VALID_STORY["title"]
+    second_call_messages = mock_client.messages.create.call_args_list[1].kwargs["messages"]
+    feedback = second_call_messages[-1]["content"]
+    assert "50 words" in feedback
+    assert "400" in feedback and "600" in feedback
+
+@patch("story_generator.anthropic.Anthropic")
 def test_generate_story_raises_after_two_failures(mock_anthropic_cls):
     mock_client = MagicMock()
     mock_anthropic_cls.return_value = mock_client
